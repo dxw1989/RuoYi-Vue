@@ -15,8 +15,7 @@
       </el-form-item>
       <el-form-item label="状态" prop="finished">
         <el-select v-model="queryParams.finished" placeholder="请选择" clearable>
-          <el-option :value="false" label="运行中" />
-          <el-option :value="true" label="已完成" />
+          <el-option v-for="option in finishOptions" :key="option.value" :label="option.label" :value="option.value" />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -171,12 +170,12 @@ export default {
         finished: undefined
       },
       finishOptions: [
-        { label: '运行中', value: false },
-        { label: '已完成', value: true }
+        { label: '运行中', value: 'false' },
+        { label: '已完成', value: 'true' }
       ],
       suspendOptions: [
-        { label: '否', value: false },
-        { label: '是', value: true }
+        { label: '否', value: 'false' },
+        { label: '是', value: 'true' }
       ],
       detailOpen: false,
       detail: {},

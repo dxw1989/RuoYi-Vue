@@ -134,9 +134,9 @@ import { listModel, getModel, addModel, updateModel, delModel, deployModel, getM
 import { listForm } from '@/api/flowable/form'
 
 const statusMap = [
-  { value: 0, label: '草稿' },
-  { value: 1, label: '待发布' },
-  { value: 2, label: '已发布' }
+  { value: '0', label: '草稿' },
+  { value: '1', label: '待发布' },
+  { value: '2', label: '已发布' }
 ]
 
 export default {

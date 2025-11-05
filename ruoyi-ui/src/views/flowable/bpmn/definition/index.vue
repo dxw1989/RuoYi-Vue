@@ -12,8 +12,7 @@
       </el-form-item>
       <el-form-item label="挂起状态" prop="suspended">
         <el-select v-model="queryParams.suspended" placeholder="请选择" clearable>
-          <el-option :value="false" label="激活" />
-          <el-option :value="true" label="挂起" />
+          <el-option v-for="option in suspendOptions" :key="option.value" :label="option.label" :value="option.value" />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -111,8 +110,8 @@ export default {
         suspended: undefined
       },
       suspendOptions: [
-        { label: '激活', value: false },
-        { label: '挂起', value: true }
+        { label: '激活', value: 'false' },
+        { label: '挂起', value: 'true' }
       ],
       detailOpen: false,
       detail: {},
