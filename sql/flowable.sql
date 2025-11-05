@@ -1,0 +1,66 @@
+-- Flowable 模型表，仅包含与流程引擎协作所需的数据结构
+CREATE TABLE IF NOT EXISTS `tbl_flow_model_info` (
+  `model_id`           bigint(20) NOT NULL AUTO_INCREMENT COMMENT '模型主键',
+  `model_key`          varchar(64)  NOT NULL COMMENT '模型标识',
+  `model_name`         varchar(128) NOT NULL COMMENT '模型名称',
+  `category`           varchar(64)  DEFAULT NULL COMMENT '模型分类',
+  `model_status`       tinyint(4)   NOT NULL DEFAULT '0' COMMENT '状态：0草稿 1待发布 2已发布',
+  `version`            int(11)      NOT NULL DEFAULT '1' COMMENT '版本号',
+  `form_id`            bigint(20)   DEFAULT NULL COMMENT '绑定表单ID',
+  `form_key`           varchar(64)  DEFAULT NULL COMMENT '绑定表单标识',
+  `deploy_id`          varchar(64)  DEFAULT NULL COMMENT '部署ID',
+  `definition_id`      varchar(128) DEFAULT NULL COMMENT '流程定义ID',
+  `definition_key`     varchar(128) DEFAULT NULL COMMENT '流程定义Key',
+  `definition_name`    varchar(255) DEFAULT NULL COMMENT '流程定义名称',
+  `model_content`      longtext COMMENT 'BPMN XML内容',
+  `model_editor_json`  longtext COMMENT '模型编辑器JSON',
+  `deploy_time`        datetime     DEFAULT NULL COMMENT '发布时间',
+  `remark`             varchar(500) DEFAULT NULL,
+  `create_by`          varchar(64)  DEFAULT NULL,
+  `create_time`        datetime     DEFAULT NULL,
+  `update_by`          varchar(64)  DEFAULT NULL,
+  `update_time`        datetime     DEFAULT NULL,
+  `del_flag`           char(1)      DEFAULT '0',
+  PRIMARY KEY (`model_id`),
+  UNIQUE KEY `uk_model_key` (`model_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Flowable 模型信息';
+
+CREATE TABLE IF NOT EXISTS `tbl_form_form_info` (
+  `form_id`        bigint(20) NOT NULL AUTO_INCREMENT COMMENT '表单主键',
+  `form_key`       varchar(64)  NOT NULL COMMENT '表单标识',
+  `form_name`      varchar(128) NOT NULL COMMENT '表单名称',
+  `form_type`      varchar(64)  DEFAULT NULL COMMENT '表单类型',
+  `description`    varchar(255) DEFAULT NULL COMMENT '表单描述',
+  `form_config`    longtext COMMENT '表单配置JSON',
+  `status`         char(1)      DEFAULT '0' COMMENT '状态（0启用 1停用）',
+  `remark`         varchar(500) DEFAULT NULL,
+  `create_by`      varchar(64)  DEFAULT NULL,
+  `create_time`    datetime     DEFAULT NULL,
+  `update_by`      varchar(64)  DEFAULT NULL,
+  `update_time`    datetime     DEFAULT NULL,
+  `del_flag`       char(1)      DEFAULT '0',
+  PRIMARY KEY (`form_id`),
+  UNIQUE KEY `uk_form_key` (`form_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='动态表单定义';
+
+CREATE TABLE IF NOT EXISTS `tbl_form_form_data_info` (
+  `data_id`            bigint(20) NOT NULL AUTO_INCREMENT COMMENT '数据主键',
+  `form_id`            bigint(20)  DEFAULT NULL COMMENT '表单ID',
+  `form_key`           varchar(64) DEFAULT NULL COMMENT '表单标识',
+  `business_key`       varchar(128) DEFAULT NULL COMMENT '业务主键',
+  `process_instance_id` varchar(64) DEFAULT NULL COMMENT '流程实例ID',
+  `task_id`            varchar(64) DEFAULT NULL COMMENT '任务ID',
+  `task_key`           varchar(128) DEFAULT NULL COMMENT '任务节点标识',
+  `form_values`        longtext COMMENT '表单值(JSON)',
+  `submit_by`          varchar(64) DEFAULT NULL COMMENT '提交人',
+  `submit_time`        datetime    DEFAULT NULL COMMENT '提交时间',
+  `remark`             varchar(500) DEFAULT NULL,
+  `create_by`          varchar(64)  DEFAULT NULL,
+  `create_time`        datetime     DEFAULT NULL,
+  `update_by`          varchar(64)  DEFAULT NULL,
+  `update_time`        datetime     DEFAULT NULL,
+  `del_flag`           char(1)      DEFAULT '0',
+  PRIMARY KEY (`data_id`),
+  KEY `idx_form_data_form` (`form_id`),
+  KEY `idx_form_data_proc` (`process_instance_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='动态表单数据';

@@ -30,6 +30,7 @@
         <poi.version>4.1.2</poi.version>
         <velocity.version>2.3</velocity.version>
         <jwt.version>0.9.1</jwt.version>
+        <flowable.version>6.7.2</flowable.version>
         <!-- override dependency version -->
         <tomcat.version>9.0.108</tomcat.version>
         <logback.version>1.2.13</logback.version>
@@ -176,6 +177,15 @@
                 <version>${jwt.version}</version>
             </dependency>
 
+            <!-- Flowable 工作流平台 -->
+            <dependency>
+                <groupId>org.flowable</groupId>
+                <artifactId>flowable-bom</artifactId>
+                <version>${flowable.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
             <!-- 验证码 -->
             <dependency>
                 <groupId>pro.fessional</groupId>
@@ -227,6 +237,7 @@
         <module>ruoyi-system</module>
         <module>ruoyi-quartz</module>
         <module>ruoyi-generator</module>
+        <module>ruoyi-flowable</module>
         <module>ruoyi-common</module>
     </modules>
     <packaging>pom</packaging>
