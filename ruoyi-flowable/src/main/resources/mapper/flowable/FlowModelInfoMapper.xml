@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ruoyi.flowable.mapper.FlowModelInfoMapper">
+
+    <resultMap id="FlowModelInfoResult" type="com.ruoyi.flowable.domain.FlowModelInfo">
+        <id    column="model_id"           property="modelId" />
+        <result column="model_key"         property="modelKey" />
+        <result column="model_name"        property="modelName" />
+        <result column="category"          property="category" />
+        <result column="model_status"      property="status" />
+        <result column="version"           property="version" />
+        <result column="form_id"           property="formId" />
+        <result column="form_key"          property="formKey" />
+        <result column="deploy_id"         property="deployId" />
+        <result column="definition_id"     property="definitionId" />
+        <result column="definition_key"    property="definitionKey" />
+        <result column="definition_name"   property="definitionName" />
+        <result column="model_content"     property="modelContent" />
+        <result column="model_editor_json" property="modelEditorJson" />
+        <result column="deploy_time"       property="deployTime" />
+        <result column="create_by"         property="createBy" />
+        <result column="create_time"       property="createTime" />
+        <result column="update_by"         property="updateBy" />
+        <result column="update_time"       property="updateTime" />
+        <result column="remark"            property="remark" />
+        <result column="del_flag"          property="delFlag" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        model_id, model_key, model_name, category, model_status, version, form_id, form_key,
+        deploy_id, definition_id, definition_key, definition_name, model_content, model_editor_json,
+        deploy_time, create_by, create_time, update_by, update_time, remark, del_flag
+    </sql>
+
+    <select id="selectFlowModelInfoById" parameterType="Long" resultMap="FlowModelInfoResult">
+        SELECT <include refid="Base_Column_List" />
+        FROM tbl_flow_model_info
+        WHERE model_id = #{modelId}
+    </select>
+
+    <select id="selectFlowModelInfoByKey" parameterType="String" resultMap="FlowModelInfoResult">
+        SELECT <include refid="Base_Column_List" />
+        FROM tbl_flow_model_info
+        WHERE model_key = #{modelKey}
+    </select>
+
+    <select id="selectFlowModelInfoList" parameterType="com.ruoyi.flowable.domain.FlowModelInfo" resultMap="FlowModelInfoResult">
+        SELECT <include refid="Base_Column_List" />
+        FROM tbl_flow_model_info
+        <where>
+            <if test="modelName != null and modelName != ''">
+                AND model_name LIKE concat('%', #{modelName}, '%')
+            </if>
+            <if test="modelKey != null and modelKey != ''">
+                AND model_key = #{modelKey}
+            </if>
+            <if test="category != null and category != ''">
+                AND category = #{category}
+            </if>
+            <if test="status != null">
+                AND model_status = #{status}
+            </if>
+            <if test="delFlag != null and delFlag != ''">
+                AND del_flag = #{delFlag}
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <insert id="insertFlowModelInfo" parameterType="com.ruoyi.flowable.domain.FlowModelInfo" useGeneratedKeys="true" keyProperty="modelId">
+        INSERT INTO tbl_flow_model_info (
+            model_key, model_name, category, model_status, version, form_id, form_key,
+            deploy_id, definition_id, definition_key, definition_name, model_content, model_editor_json,
+            deploy_time, create_by, create_time, update_by, update_time, remark, del_flag
+        ) VALUES (
+            #{modelKey}, #{modelName}, #{category}, #{status}, #{version}, #{formId}, #{formKey},
+            #{deployId}, #{definitionId}, #{definitionKey}, #{definitionName}, #{modelContent}, #{modelEditorJson},
+            #{deployTime}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime}, #{remark}, #{delFlag}
+        )
+    </insert>
+
+    <update id="updateFlowModelInfo" parameterType="com.ruoyi.flowable.domain.FlowModelInfo">
+        UPDATE tbl_flow_model_info
+        <set>
+            <if test="modelKey != null">model_key = #{modelKey},</if>
+            <if test="modelName != null">model_name = #{modelName},</if>
+            <if test="category != null">category = #{category},</if>
+            <if test="status != null">model_status = #{status},</if>
+            <if test="version != null">version = #{version},</if>
+            <if test="formId != null">form_id = #{formId},</if>
+            <if test="formKey != null">form_key = #{formKey},</if>
+            <if test="deployId != null">deploy_id = #{deployId},</if>
+            <if test="definitionId != null">definition_id = #{definitionId},</if>
+            <if test="definitionKey != null">definition_key = #{definitionKey},</if>
+            <if test="definitionName != null">definition_name = #{definitionName},</if>
+            <if test="modelContent != null">model_content = #{modelContent},</if>
+            <if test="modelEditorJson != null">model_editor_json = #{modelEditorJson},</if>
+            <if test="deployTime != null">deploy_time = #{deployTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </set>
+        WHERE model_id = #{modelId}
+    </update>
+
+    <delete id="deleteFlowModelInfoByIds" parameterType="Long">
+        DELETE FROM tbl_flow_model_info WHERE model_id IN
+        <foreach collection="array" item="modelId" open="(" close=")" separator=",">
+            #{modelId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteFlowModelInfoById" parameterType="Long">
+        DELETE FROM tbl_flow_model_info WHERE model_id = #{modelId}
+    </delete>
+</mapper>

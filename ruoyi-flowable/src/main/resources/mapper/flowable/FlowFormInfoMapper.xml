@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ruoyi.flowable.mapper.FlowFormInfoMapper">
+
+    <resultMap id="FlowFormInfoResult" type="com.ruoyi.flowable.domain.FlowFormInfo">
+        <id     column="form_id"       property="formId" />
+        <result column="form_key"      property="formKey" />
+        <result column="form_name"     property="formName" />
+        <result column="form_type"     property="formType" />
+        <result column="description"   property="description" />
+        <result column="form_config"   property="formConfig" />
+        <result column="status"        property="status" />
+        <result column="create_by"     property="createBy" />
+        <result column="create_time"   property="createTime" />
+        <result column="update_by"     property="updateBy" />
+        <result column="update_time"   property="updateTime" />
+        <result column="remark"        property="remark" />
+        <result column="del_flag"      property="delFlag" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        form_id, form_key, form_name, form_type, description, form_config, status,
+        create_by, create_time, update_by, update_time, remark, del_flag
+    </sql>
+
+    <select id="selectFlowFormInfoById" parameterType="Long" resultMap="FlowFormInfoResult">
+        SELECT <include refid="Base_Column_List" />
+        FROM tbl_form_form_info
+        WHERE form_id = #{formId}
+    </select>
+
+    <select id="selectFlowFormInfoByKey" parameterType="String" resultMap="FlowFormInfoResult">
+        SELECT <include refid="Base_Column_List" />
+        FROM tbl_form_form_info
+        WHERE form_key = #{formKey}
+    </select>
+
+    <select id="selectFlowFormInfoList" parameterType="com.ruoyi.flowable.domain.FlowFormInfo" resultMap="FlowFormInfoResult">
+        SELECT <include refid="Base_Column_List" />
+        FROM tbl_form_form_info
+        <where>
+            <if test="formName != null and formName != ''">
+                AND form_name LIKE concat('%', #{formName}, '%')
+            </if>
+            <if test="formKey != null and formKey != ''">
+                AND form_key = #{formKey}
+            </if>
+            <if test="formType != null and formType != ''">
+                AND form_type = #{formType}
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+            <if test="delFlag != null and delFlag != ''">
+                AND del_flag = #{delFlag}
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <insert id="insertFlowFormInfo" parameterType="com.ruoyi.flowable.domain.FlowFormInfo" useGeneratedKeys="true" keyProperty="formId">
+        INSERT INTO tbl_form_form_info (
+            form_key, form_name, form_type, description, form_config, status,
+            create_by, create_time, update_by, update_time, remark, del_flag
+        ) VALUES (
+            #{formKey}, #{formName}, #{formType}, #{description}, #{formConfig}, #{status},
+            #{createBy}, #{createTime}, #{updateBy}, #{updateTime}, #{remark}, #{delFlag}
+        )
+    </insert>
+
+    <update id="updateFlowFormInfo" parameterType="com.ruoyi.flowable.domain.FlowFormInfo">
+        UPDATE tbl_form_form_info
+        <set>
+            <if test="formKey != null">form_key = #{formKey},</if>
+            <if test="formName != null">form_name = #{formName},</if>
+            <if test="formType != null">form_type = #{formType},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="formConfig != null">form_config = #{formConfig},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </set>
+        WHERE form_id = #{formId}
+    </update>
+
+    <delete id="deleteFlowFormInfoByIds" parameterType="Long">
+        DELETE FROM tbl_form_form_info WHERE form_id IN
+        <foreach collection="array" item="formId" open="(" close=")" separator=",">
+            #{formId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteFlowFormInfoById" parameterType="Long">
+        DELETE FROM tbl_form_form_info WHERE form_id = #{formId}
+    </delete>
+</mapper>
