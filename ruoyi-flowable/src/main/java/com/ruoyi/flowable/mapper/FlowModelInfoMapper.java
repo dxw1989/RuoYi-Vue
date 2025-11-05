@@ -33,6 +33,22 @@ public interface FlowModelInfoMapper
     FlowModelInfo selectFlowModelInfoByKey(String modelKey);
 
     /**
+     * 根据流程定义Key查询最新模型
+     *
+     * @param definitionKey 流程定义Key
+     * @return 模型信息
+     */
+    FlowModelInfo selectFlowModelInfoByDefinitionKey(String definitionKey);
+
+    /**
+     * 根据流程定义Key集合查询模型
+     *
+     * @param definitionKeys 流程定义Key集合
+     * @return 模型集合
+     */
+    List<FlowModelInfo> selectFlowModelInfoByDefinitionKeys(List<String> definitionKeys);
+
+    /**
      * 新增流程模型
      *
      * @param flowModelInfo 模型信息

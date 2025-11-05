@@ -44,6 +44,24 @@
         WHERE model_key = #{modelKey}
     </select>
 
+    <select id="selectFlowModelInfoByDefinitionKey" parameterType="String" resultMap="FlowModelInfoResult">
+        SELECT <include refid="Base_Column_List" />
+        FROM tbl_flow_model_info
+        WHERE definition_key = #{definitionKey}
+        ORDER BY update_time DESC
+        LIMIT 1
+    </select>
+
+    <select id="selectFlowModelInfoByDefinitionKeys" resultMap="FlowModelInfoResult">
+        SELECT <include refid="Base_Column_List" />
+        FROM tbl_flow_model_info
+        WHERE definition_key IN
+        <foreach collection="definitionKeys" item="definitionKey" open="(" close=")" separator=",">
+            #{definitionKey}
+        </foreach>
+        ORDER BY update_time DESC
+    </select>
+
     <select id="selectFlowModelInfoList" parameterType="com.ruoyi.flowable.domain.FlowModelInfo" resultMap="FlowModelInfoResult">
         SELECT <include refid="Base_Column_List" />
         FROM tbl_flow_model_info
