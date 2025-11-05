@@ -6,6 +6,13 @@ Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
 
+const modulesFiles = require.context('./modules', true, /\.js$/)
+const modulesRoutes = modulesFiles.keys().reduce((routes, modulePath) => {
+  const module = modulesFiles(modulePath)
+  const value = module.default || module
+  return routes.concat(Array.isArray(value) ? value : [value])
+}, [])
+
 /**
  * Note: 路由配置项
  *
@@ -92,6 +99,7 @@ export const constantRoutes = [
 
 // 动态路由，基于用户权限动态去加载
 export const dynamicRoutes = [
+  ...modulesRoutes,
   {
     path: '/system/user-auth',
     component: Layout,
