@@ -55,6 +55,12 @@
             <artifactId>ruoyi-quartz</artifactId>
         </dependency>
 
+        <!-- Flowable 流程模块 -->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-flowable</artifactId>
+        </dependency>
+
         <!-- 代码生成-->
         <dependency>
             <groupId>com.ruoyi</groupId>
