@@ -43,6 +43,10 @@ public class FlowFormInfoServiceImpl implements IFlowFormInfoService
         Date now = DateUtils.getNowDate();
         formInfo.setCreateTime(now);
         formInfo.setUpdateTime(now);
+        if (StringUtils.isEmpty(formInfo.getStatus()))
+        {
+            formInfo.setStatus("0");
+        }
         formInfo.setDelFlag(StringUtils.nvl(formInfo.getDelFlag(), "0"));
         return flowFormInfoMapper.insertFlowFormInfo(formInfo);
     }

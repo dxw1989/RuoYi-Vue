@@ -35,6 +35,12 @@ public class FlowModelInfoServiceImpl implements IFlowModelInfoService
     }
 
     @Override
+    public FlowModelInfo selectFlowModelInfoByKey(String modelKey)
+    {
+        return flowModelInfoMapper.selectFlowModelInfoByKey(modelKey);
+    }
+
+    @Override
     public List<FlowModelInfo> selectFlowModelInfoList(FlowModelInfo flowModelInfo)
     {
         return flowModelInfoMapper.selectFlowModelInfoList(flowModelInfo);
@@ -122,6 +128,31 @@ public class FlowModelInfoServiceImpl implements IFlowModelInfoService
             flowModelInfo.setVersion(definition.getVersion());
         }
 
+        flowModelInfoMapper.updateFlowModelInfo(flowModelInfo);
+        return flowModelInfo;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public FlowModelInfo saveModelEditor(Long modelId, String modelContent, String modelEditorJson,
+            Long formId, String formKey, String operator)
+    {
+        FlowModelInfo flowModelInfo = flowModelInfoMapper.selectFlowModelInfoById(modelId);
+        if (flowModelInfo == null)
+        {
+            throw new ServiceException("流程模型不存在");
+        }
+        Date now = DateUtils.getNowDate();
+        flowModelInfo.setModelContent(modelContent);
+        flowModelInfo.setModelEditorJson(modelEditorJson);
+        flowModelInfo.setFormId(formId);
+        flowModelInfo.setFormKey(formKey);
+        flowModelInfo.setUpdateTime(now);
+        flowModelInfo.setUpdateBy(operator);
+        if (flowModelInfo.getStatus() == null || FlowModelStatus.PUBLISHED.getCode() == flowModelInfo.getStatus())
+        {
+            flowModelInfo.setStatus(FlowModelStatus.PENDING.getCode());
+        }
         flowModelInfoMapper.updateFlowModelInfo(flowModelInfo);
         return flowModelInfo;
     }

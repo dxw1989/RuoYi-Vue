@@ -1,6 +1,7 @@
 package com.ruoyi.flowable.domain;
 
 import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
@@ -61,6 +62,7 @@ public class FlowModelInfo extends BaseEntity
     private String modelEditorJson;
 
     /** 发布时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date deployTime;
 
     /** 删除标识（0正常 1删除） */

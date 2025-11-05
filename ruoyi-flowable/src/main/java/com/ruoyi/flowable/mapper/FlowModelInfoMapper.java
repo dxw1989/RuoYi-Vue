@@ -25,6 +25,14 @@ public interface FlowModelInfoMapper
     List<FlowModelInfo> selectFlowModelInfoList(FlowModelInfo flowModelInfo);
 
     /**
+     * 根据模型标识查询
+     *
+     * @param modelKey 模型标识
+     * @return 模型信息
+     */
+    FlowModelInfo selectFlowModelInfoByKey(String modelKey);
+
+    /**
      * 新增流程模型
      *
      * @param flowModelInfo 模型信息

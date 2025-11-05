@@ -18,6 +18,7 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.flowable.domain.FlowModelInfo;
+import com.ruoyi.flowable.domain.dto.FlowModelEditorUpdateRequest;
 import com.ruoyi.flowable.service.IFlowModelInfoService;
 
 /**
@@ -46,6 +47,13 @@ public class FlowModelController extends BaseController
         return AjaxResult.success(flowModelInfoService.selectFlowModelInfoById(modelId));
     }
 
+    @PreAuthorize("@ss.hasPermi('flowable:model:query')")
+    @GetMapping(value = "/key/{modelKey}")
+    public AjaxResult getByKey(@PathVariable String modelKey)
+    {
+        return AjaxResult.success(flowModelInfoService.selectFlowModelInfoByKey(modelKey));
+    }
+
     @PreAuthorize("@ss.hasPermi('flowable:model:add')")
     @Log(title = "流程模型", businessType = BusinessType.INSERT)
     @PostMapping
@@ -63,6 +71,25 @@ public class FlowModelController extends BaseController
     {
         flowModelInfo.setUpdateBy(getUsername());
         return toAjax(flowModelInfoService.updateFlowModelInfo(flowModelInfo));
+    }
+
+    @PreAuthorize("@ss.hasPermi('flowable:model:design')")
+    @Log(title = "流程模型", businessType = BusinessType.UPDATE)
+    @PutMapping(value = "/{modelId}/editor")
+    public AjaxResult saveEditor(@PathVariable Long modelId,
+            @Validated @RequestBody FlowModelEditorUpdateRequest request)
+    {
+        FlowModelInfo flowModelInfo = flowModelInfoService.saveModelEditor(modelId, request.getModelContent(),
+            request.getModelEditorJson(), request.getFormId(), request.getFormKey(), getUsername());
+        return AjaxResult.success(flowModelInfo);
+    }
+
+    @PreAuthorize("@ss.hasPermi('flowable:model:query')")
+    @GetMapping(value = "/{modelId}/editor")
+    public AjaxResult editor(@PathVariable Long modelId)
+    {
+        FlowModelInfo flowModelInfo = flowModelInfoService.selectFlowModelInfoById(modelId);
+        return AjaxResult.success(flowModelInfo);
     }
 
     @PreAuthorize("@ss.hasPermi('flowable:model:deploy')")

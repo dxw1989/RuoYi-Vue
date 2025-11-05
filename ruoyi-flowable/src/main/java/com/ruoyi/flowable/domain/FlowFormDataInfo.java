@@ -1,6 +1,7 @@
 package com.ruoyi.flowable.domain;
 
 import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
@@ -38,6 +39,7 @@ public class FlowFormDataInfo extends BaseEntity
     private String submitBy;
 
     /** 提交时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date submitTime;
 
     /** 删除标记 */

@@ -38,6 +38,12 @@
         WHERE model_id = #{modelId}
     </select>
 
+    <select id="selectFlowModelInfoByKey" parameterType="String" resultMap="FlowModelInfoResult">
+        SELECT <include refid="Base_Column_List" />
+        FROM tbl_flow_model_info
+        WHERE model_key = #{modelKey}
+    </select>
+
     <select id="selectFlowModelInfoList" parameterType="com.ruoyi.flowable.domain.FlowModelInfo" resultMap="FlowModelInfoResult">
         SELECT <include refid="Base_Column_List" />
         FROM tbl_flow_model_info

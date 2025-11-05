@@ -46,6 +46,13 @@ public class FlowFormController extends BaseController
         return AjaxResult.success(flowFormInfoService.selectFlowFormInfoById(formId));
     }
 
+    @PreAuthorize("@ss.hasPermi('flowable:form:query')")
+    @GetMapping(value = "/key/{formKey}")
+    public AjaxResult getInfoByKey(@PathVariable String formKey)
+    {
+        return AjaxResult.success(flowFormInfoService.selectFlowFormInfoByKey(formKey));
+    }
+
     @PreAuthorize("@ss.hasPermi('flowable:form:add')")
     @Log(title = "流程表单", businessType = BusinessType.INSERT)
     @PostMapping
