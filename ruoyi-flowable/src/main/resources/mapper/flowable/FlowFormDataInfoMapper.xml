@@ -61,6 +61,14 @@
         ORDER BY submit_time DESC
     </select>
 
+    <select id="selectLatestByInstanceId" parameterType="String" resultMap="FlowFormDataInfoResult">
+        SELECT <include refid="Base_Column_List" />
+        FROM tbl_form_form_data_info
+        WHERE process_instance_id = #{processInstanceId}
+        ORDER BY submit_time DESC, data_id DESC
+        LIMIT 1
+    </select>
+
     <insert id="insertFlowFormDataInfo" parameterType="com.ruoyi.flowable.domain.FlowFormDataInfo" useGeneratedKeys="true" keyProperty="dataId">
         INSERT INTO tbl_form_form_data_info (
             form_id, form_key, business_key, process_instance_id, task_id, task_key,

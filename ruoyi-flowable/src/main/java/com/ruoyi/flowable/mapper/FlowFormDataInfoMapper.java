@@ -12,6 +12,8 @@ public interface FlowFormDataInfoMapper
 
     List<FlowFormDataInfo> selectFlowFormDataInfoList(FlowFormDataInfo dataInfo);
 
+    FlowFormDataInfo selectLatestByInstanceId(String processInstanceId);
+
     int insertFlowFormDataInfo(FlowFormDataInfo dataInfo);
 
     int updateFlowFormDataInfo(FlowFormDataInfo dataInfo);
