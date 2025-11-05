@@ -134,3 +134,17 @@ xss:
   excludes: /system/notice
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
+
+# Flowable 配置
+flowable:
+  # 自动更新数据库结构
+  database-schema-update: true
+  # 关闭异步执行器，使用外部调度
+  async-executor-activate: false
+  # 启用历史记录
+  db-history-used: true
+  history-level: full
+  # 禁用内置身份模块
+  idm-enabled: false
+  # 启动时不强制校验流程定义文件
+  check-process-definitions: false
